@@ -21,7 +21,7 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         return $this->handleAction(function () use ($request) {
-            $tasks = $this->taskService->getAllTasks($request->all());
+            $tasks = $this->taskService->getAllTasks($request);
             return $this->successResponse($tasks, 'Tasks fetched successfully');
         });
     }
@@ -56,6 +56,13 @@ class TaskController extends Controller
         return $this->handleAction(function () use ($id) {
             $this->taskService->deleteTask($id);
             return $this->successResponse(null, 'Task deleted successfully');
+        });
+    }
+    public function show($id)
+    {
+        return $this->handleAction(function () use ($id) {
+            $task = $this->taskService->getTaskById($id);
+            return $this->successResponse($task, 'Task fetched successfully');
         });
     }
 

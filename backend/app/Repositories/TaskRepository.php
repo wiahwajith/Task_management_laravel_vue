@@ -8,9 +8,17 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskRepository implements TaskRepositoryInterface
 {
-    public function all()
+    public function all($filters)
     {
-        return Task::where('user_id', Auth::id())->latest()->get();
+        $perPage = 5;
+        $query = Task::query();
+
+        if (!empty($filters['status']) && $filters['status'] !== 'all') {
+            $query->where('status', $filters['status']);
+        }
+
+        return $query->orderBy('created_at', 'desc')
+                    ->paginate($perPage, ['*'], 'page', $filters['page'] ?? 1);
     }
 
     public function find($id)
@@ -43,5 +51,11 @@ class TaskRepository implements TaskRepositoryInterface
         $task->status = 'completed';
         $task->save();
         return $task;
+    }
+
+    public function getTaskById($id)
+    {
+        return Task::findOrFail($id); 
+        
     }
 }

@@ -15,7 +15,13 @@ class TaskService
 
     public function getAllTasks($filters)
     {
-        return $this->taskRepo->all($filters);
+        $status = $filters->get('status', 'all'); 
+        $page = $filters->get('page', 1);         
+    
+        return $this->taskRepo->all([
+            'status' => $status,
+            'page' => $page
+        ]);
     }
 
     public function createTask(array $data)
@@ -31,6 +37,10 @@ class TaskService
     public function deleteTask($id)
     {
         return $this->taskRepo->delete($id);
+    }
+    public function getTaskById($id)
+    {
+        return $this->taskRepo->getTaskById($id);
     }
 
     public function markAsCompleted($id)
