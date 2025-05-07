@@ -6,7 +6,6 @@ const Login = () => import('@/pages/auth/Login.vue')
 const Register = () => import('@/pages/auth/Register.vue')
 const MainLayout = () => import('@/layouts/MainLayout.vue')
 const Dashboard = () => import('./../pages/dashboard/Dashboard.vue')
-// const Dashboard = () => import('@/pages/dashboard/Dashboard.vue')
 const CreateTask = () => import('@/pages/dashboard/CreateTask.vue')
 const EditTask = () => import('@/pages/dashboard/EditTask.vue')
 
