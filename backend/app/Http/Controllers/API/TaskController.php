@@ -6,6 +6,8 @@ use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use App\Services\TaskService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TaskStoreRequest;
+use App\Http\Requests\TaskUpdateRequest;
 
 class TaskController extends Controller
 {
@@ -26,27 +28,20 @@ class TaskController extends Controller
         });
     }
 
-    public function store(Request $request)
+    public function store(TaskStoreRequest $request)
     {
         return $this->handleAction(function () use ($request) {
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'nullable|string',
-            ]);
-            $task = $this->taskService->createTask($validated);
+
+            $task = $this->taskService->createTask($request->all());
             return $this->successResponse($task, 'Task created successfully');
         });
     }
 
-    public function update(Request $request, $id)
+    public function update(TaskUpdateRequest $request, $id)
     {
         return $this->handleAction(function () use ($request, $id) {
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'status' => 'in:pending,completed'
-            ]);
-            $task = $this->taskService->updateTask($id, $validated);
+
+            $task = $this->taskService->updateTask($id, $request->all());
             return $this->successResponse($task, 'Task updated successfully');
         });
     }

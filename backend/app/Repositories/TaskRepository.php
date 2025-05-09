@@ -10,15 +10,18 @@ class TaskRepository implements TaskRepositoryInterface
 {
     public function all($filters)
     {
-        $perPage = 5;
         $query = Task::query();
-
+    
+        if (!empty($filters['user_id'])) {
+            $query->where('user_id', $filters['user_id']);
+        }
+    
         if (!empty($filters['status']) && $filters['status'] !== 'all') {
             $query->where('status', $filters['status']);
         }
-
+    
         return $query->orderBy('created_at', 'desc')
-                    ->paginate($perPage, ['*'], 'page', $filters['page'] ?? 1);
+                     ->paginate($filters['per_page'], ['*'], 'page', $filters['page'] ?? 1);
     }
 
     public function find($id)

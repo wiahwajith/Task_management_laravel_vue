@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Constants\Constants;
 use App\Interfaces\TaskRepositoryInterface;
 
 class TaskService
@@ -17,10 +18,14 @@ class TaskService
     {
         $status = $filters->get('status', 'all'); 
         $page = $filters->get('page', 1);         
-    
+        $userId = auth()->id();
+        $perPage = Constants::PER_PAGE;
+
         return $this->taskRepo->all([
             'status' => $status,
-            'page' => $page
+            'page' => $page,
+            'user_id' => $userId,
+            'per_page' => $perPage
         ]);
     }
 
