@@ -26,7 +26,6 @@ api.interceptors.response.use(
       data: error.response?.data,
     });
 
-    // Optionally notify user with global UI alert/toast (if using Vuetify/Toast)
     return Promise.reject({ message, ...error.response });
   }
 );

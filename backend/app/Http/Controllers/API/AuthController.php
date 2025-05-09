@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Services\AuthService;
 use App\Traits\ApiResponser;
+use App\Services\AuthService;
+use App\Http\Requests\LoginRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
@@ -18,27 +19,20 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         return $this->handleAction(function () use ($request) {
-            $validated = $request->validate([
-                'name'     => 'required|string|max:255',
-                'email'    => 'required|email|unique:users',
-                'password' => 'required|min:6'
-            ]);
-            $result = $this->authService->register($validated);
+
+            $result = $this->authService->register($request->all());
             return $this->successResponse($result, 'User registered successfully', 201);
         }, 'Failed to register user');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         return $this->handleAction(function () use ($request) {
-            $credentials = $request->validate([
-                'email'    => 'required|email',
-                'password' => 'required'
-            ]);
-            $result = $this->authService->login($credentials);
+
+            $result = $this->authService->login($request->all());
 
             if (!$result) {
                 return $this->errorResponse('Invalid credentials', 401);

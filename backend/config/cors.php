@@ -15,17 +15,17 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'login', 'logout', 'register', 'refresh-token'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'], //http://localhost:5173 add later
+    'allowed_origins' => ['http://localhost:5173'], //http://localhost:5173 add later
 
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => [],
+    'exposed_headers' => ['Authorization'],
 
     'max_age' => 0,
 
